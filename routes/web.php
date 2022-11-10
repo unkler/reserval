@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LiveWireTestController;
+use App\Http\Controllers\AlpineTestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::controller(LiveWireTestController::class)
         Route::get('index', 'index')->name('index');
         Route::get('register', 'register')->name('register');
 });
+
+Route::get('alpine-test/index', [AlpineTestController::class, 'index']);
 
 Route::middleware([
     'auth:sanctum',
