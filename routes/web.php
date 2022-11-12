@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LiveWireTestController;
 use App\Http\Controllers\AlpineTestController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,11 +20,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('manager')->middleware('can:manager-higher')->group(function () {
+    Route::get('events/past', [EventController::class, 'past'])->name('events.past');
+    Route::resource('events', EventController::class);
+});
+
+Route::middleware('can:user-higher')->group(function () {
+    Route::get('index', function () {
+        dd('user');
+    });
+});
+
 Route::controller(LiveWireTestController::class)
-    ->prefix('livewire-test')->name('livewire-test.')->group(function() {
+    ->prefix('livewire-test')->name('livewire-test.')->group(function () {
         Route::get('index', 'index')->name('index');
         Route::get('register', 'register')->name('register');
-});
+    });
 
 Route::get('alpine-test/index', [AlpineTestController::class, 'index']);
 
