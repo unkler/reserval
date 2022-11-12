@@ -56,9 +56,11 @@
                             非表示
                         @endif  
                       </div>
-                      <x-jet-button class="ml-4">
-                        編集
-                      </x-jet-button>
+                      @if ($event->eventDate >= \Carbon\Carbon::today()->format('Y年m月d日'))
+                        <x-jet-button class="ml-4">
+                          編集
+                        </x-jet-button>
+                      @endif
                     </div>
                 </form>
               </div>
