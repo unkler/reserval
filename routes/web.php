@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LiveWireTestController;
 use App\Http\Controllers\AlpineTestController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,9 @@ Route::prefix('manager')->middleware('can:manager-higher')->group(function () {
 });
 
 Route::middleware('can:user-higher')->group(function () {
-    Route::get('index', function () {
-        dd('user');
-    });
+    Route::get('/dashboard', [ReservationController::class, 'dashboard'])->name('dashboard');
+    Route::get('/{id}', [ ReservationController::class, 'detail'] )->name('events.detail');
+    Route::post('/{id}', [ ReservationController::class, 'reserve'] )->name('events.reserve');
 });
 
 Route::controller(LiveWireTestController::class)
@@ -39,12 +40,12 @@ Route::controller(LiveWireTestController::class)
 
 Route::get('alpine-test/index', [AlpineTestController::class, 'index']);
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });
